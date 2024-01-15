@@ -1,0 +1,52 @@
+sys.path.extend(['C:\\Users\\chels\\PycharmProjects\\DLL', 'C:/Users/chels/PycharmProjects/DLL'])
+PyDev console: starting.
+Python 3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)] on win32
+import DLL
+mylist = DLL.DoublyLinkedList()
+mylist.add_to_head(5)
+mylist.add_to_head(4)
+mylist.add_after_current(3)
+mylist.move_forward()
+mylist.move_forward()
+mylist.add_after_current(1)
+mylist.move_forward()
+mylist.move_backward()
+mylist.find(3)
+3
+mylist.curr_data
+5
+mylist.remove(3)
+3
+mylist.find(3)
+Traceback (most recent call last):
+  File "C:\Users\chels\AppData\Local\Programs\Python\Python310\lib\code.py", line 90, in runcode
+    exec(code, self.locals)
+  File "<input>", line 1, in <module>
+  File "C:\Users\chels\PycharmProjects\DLL\DLL.py", line 101, in find
+    raise IndexError
+IndexError
+mylist.curr_data
+5
+mylist.remove_after_current()
+1
+mylist.find(1)
+Traceback (most recent call last):
+  File "C:\Users\chels\AppData\Local\Programs\Python\Python310\lib\code.py", line 90, in runcode
+    exec(code, self.locals)
+  File "<input>", line 1, in <module>
+  File "C:\Users\chels\PycharmProjects\DLL\DLL.py", line 101, in find
+    raise IndexError
+IndexError
+mylist.curr_data
+5
+mylist.reset_to_head()
+mylist.curr_data
+4
+mylist.reset_to_tail()
+mylist.curr_data
+5
+mylist.remove_from_head()
+4
+mylist.reset_to_tail()
+mylist.curr_data
+5
