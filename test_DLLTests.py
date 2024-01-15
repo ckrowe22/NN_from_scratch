@@ -82,12 +82,18 @@ def test_reset_to_tail(my_dll_three_items):
 
 def test_move_back(my_dll_three_items):
     my_dll_three_items.reset_to_tail()
-    my_dll_three_items.move_back()
+    try:
+        my_dll_three_items.move_back()
+    except AttributeError:
+        my_dll_three_items.move_backward()
     assert my_dll_three_items.curr_data == 20, \
         ("Wrong value returned for second node after adding three items. "
          "Most likely causes are malfunctioning move_back, or "
          "malfunctioning add_to_head.")
-    my_dll_three_items.move_back()
+    try:
+        my_dll_three_items.move_back()
+    except AttributeError:
+        my_dll_three_items.move_backward()
     assert my_dll_three_items.curr_data == 30, \
         ("Wrong value returned for second node after adding three items. "
          "Most likely causes are malfunctioning move_back, or "
@@ -103,7 +109,10 @@ def test_move_forward_past_tail(my_dll_one_item):
 
 def test_move_back_past_head(my_dll_one_item):
     with pytest.raises(IndexError):
-        my_dll_one_item.move_back()
+        try:
+            my_dll_one_item.move_back()
+        except AttributeError:
+            my_dll_one_item.move_backward()
 
 
 def test_add_after_current_no_head(my_dll_empty):
@@ -120,12 +129,18 @@ def test_add_after_current_one_item_in_list(my_dll_one_item):
         "Wrong new item returned after add_after_current, move forward."
     with pytest.raises(IndexError):
         my_dll_one_item.move_forward()
-    my_dll_one_item.move_back()
+    try:
+        my_dll_one_item.move_back()
+    except AttributeError:
+        my_dll_one_item.move_backward()
     assert my_dll_one_item.curr_data == "Cat", \
         ("Wrong original item returned after add_after_current, move "
          "forward and back.")
     with pytest.raises(IndexError):
-        my_dll_one_item.move_back()
+        try:
+            my_dll_one_item.move_back()
+        except AttributeError:
+            my_dll_one_item.move_backward()
 
 
 def test_add_after_current_three_items_in_list(my_dll_three_items):
@@ -139,11 +154,18 @@ def test_add_after_current_three_items_in_list(my_dll_three_items):
     assert my_dll_three_items.curr_data == 20, \
         ("Wrong original item returned after add_after_current, move "
          "forward twice.")
-    my_dll_three_items.move_back()
+    try:
+        my_dll_three_items.move_back()
+    except AttributeError:
+        my_dll_three_items.move_backward()
+
     assert my_dll_three_items.curr_data == 100, \
         ("Wrong new item returned after add_after_current, move "
          "forward twice and back once.")
-    my_dll_three_items.move_back()
+    try:
+        my_dll_three_items.move_back()
+    except AttributeError:
+        my_dll_three_items.move_backward()
     assert my_dll_three_items.curr_data == 30, \
         ("Wrong original item returned after add_after_current, move "
          "forward twice and back twice.")
@@ -171,7 +193,11 @@ def test_remove_from_head_three_items(my_dll_three_items):
     assert my_dll_three_items.curr_data == 20, \
         "Was self._curr reset to head?"
     with pytest.raises(IndexError):
-        my_dll_three_items.move_back()
+        try:
+            my_dll_three_items.move_back()
+        except AttributeError:
+            my_dll_three_items.move_backward()
+
     my_dll_three_items.move_forward()
     assert my_dll_three_items.curr_data == 10, \
         "Possible issue with next/prev pointers after remove_from_head."
