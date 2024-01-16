@@ -3,7 +3,14 @@
 
 class DLLNode:
     """Creating Doubly Linked List Node Class."""
+
     def __init__(self, data):
+        """
+        Initialize an instance of DLLNode Class.
+
+        Parameters:
+        data (any type): Data to be added to list.
+        """
         self.data = data
         self.next = None
         self.prev = None
@@ -11,7 +18,12 @@ class DLLNode:
 
 class DoublyLinkedList:
     """Implementing Linked List ADT."""
+
     def __init__(self):
+        """Initialize an instance of Doubly Linked List Class.
+
+        Parameters: None.
+        """
         self._head = None
         self._tail = None
         self._curr = None
@@ -28,7 +40,7 @@ class DoublyLinkedList:
         """Add a new node to the head of the list."""
         new_node = DLLNode(data)
         if self._head is None:
-            # if list is empty and self._head = None, the new node will be both the head and the tail
+            # if list is empty and self._head = None, new node will be both head and tail
             self._head = self._tail = new_node
         else:
             new_node.next = self._head
@@ -72,7 +84,7 @@ class DoublyLinkedList:
         new_node.next = self._curr.next
         new_node.prev = self._curr
         self._curr.next = new_node
-        # if there is no node after self._curr (ie it is the current tail), the new node becomes the tail
+        # if no node after self._curr (ie is current tail), new node becomes the tail
         if not new_node.next:
             self._tail = new_node
         else:
