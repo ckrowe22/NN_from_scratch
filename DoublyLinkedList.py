@@ -133,8 +133,9 @@ class DoublyLinkedList:
                     self._tail = temp_curr
                 else:
                     temp_curr.next.prev = temp_curr
-                #self.reset_to_head()
+                if self._curr == temp_curr.next:
+                    self.reset_to_head()
                 return return_value
             temp_curr = temp_curr.next
         raise IndexError
-        self.reset_to_head()
+
