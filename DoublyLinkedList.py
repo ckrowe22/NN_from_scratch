@@ -55,6 +55,10 @@ class DoublyLinkedList:
             raise IndexError
         return_value = self._head.data
         self._head = self._head.next
+        if not self._head:
+            self._curr = None
+        else:
+            self._head.prev = None
         self.reset_to_head()
         return return_value
 
@@ -129,7 +133,8 @@ class DoublyLinkedList:
                     self._tail = temp_curr
                 else:
                     temp_curr.next.prev = temp_curr
-                self.reset_to_head()
+                #self.reset_to_head()
                 return return_value
             temp_curr = temp_curr.next
         raise IndexError
+        self.reset_to_head()
