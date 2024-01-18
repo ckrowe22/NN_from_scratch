@@ -131,6 +131,3 @@ class DoublyLinkedList:
                 return return_value
             temp_curr = temp_curr.next
         raise IndexError
-
-
-
