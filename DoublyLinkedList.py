@@ -40,9 +40,7 @@ class DoublyLinkedList:
         """Add a new node to the head of the list."""
         new_node = DLLNode(data)
         if self._head is None:
-            # if list is empty and self._head = None,
-            # new node will be both head and tail
-            self._head = self._tail = new_node
+            self._head = self._tail = self._curr = new_node
         else:
             new_node.next = self._head
             self._head.prev = new_node
@@ -89,8 +87,6 @@ class DoublyLinkedList:
         new_node.next = self._curr.next
         new_node.prev = self._curr
         self._curr.next = new_node
-        # if no node after self._curr (ie is current tail),
-        # new node becomes the tail
         if not new_node.next:
             self._tail = new_node
         else:
@@ -102,7 +98,6 @@ class DoublyLinkedList:
             raise IndexError
         return_value = self._curr.next.data
         self._curr.next = self._curr.next.next
-        # if the new self._curr has no value next, it becomes the tail
         if not self._curr.next:
             self._tail = self._curr
         else:
@@ -133,9 +128,9 @@ class DoublyLinkedList:
                     self._tail = temp_curr
                 else:
                     temp_curr.next.prev = temp_curr
-                if self._curr == temp_curr.next:
-                    self.reset_to_head()
                 return return_value
             temp_curr = temp_curr.next
         raise IndexError
+
+
 

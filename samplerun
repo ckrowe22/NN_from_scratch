@@ -50,3 +50,78 @@ mylist.remove_from_head()
 mylist.reset_to_tail()
 mylist.curr_data
 5
+
+============================ test session starts =============================
+collecting ... collected 26 items
+
+test_DLLTests.py::test_DLLNode PASSED                                    [  3%]
+test_DLLTests.py::test_property PASSED                                   [  7%]
+test_DLLTests.py::test_move_forward PASSED                               [ 11%]
+test_DLLTests.py::test_reset_to_head PASSED                              [ 15%]
+test_DLLTests.py::test_reset_to_tail PASSED                              [ 19%]
+test_DLLTests.py::test_move_back PASSED                                  [ 23%]
+test_DLLTests.py::test_move_forward_past_tail PASSED                     [ 26%]
+test_DLLTests.py::test_move_back_past_head PASSED                        [ 30%]
+test_DLLTests.py::test_add_after_current_no_head PASSED                  [ 34%]
+test_DLLTests.py::test_add_after_current_one_item_in_list PASSED         [ 38%]
+test_DLLTests.py::test_add_after_current_three_items_in_list PASSED      [ 42%]
+test_DLLTests.py::test_remove_from_head_no_items PASSED                  [ 46%]
+test_DLLTests.py::test_remove_from_head_one_item PASSED                  [ 50%]
+test_DLLTests.py::test_remove_from_head_three_items PASSED               [ 53%]
+test_DLLTests.py::test_find_empty_list PASSED                            [ 57%]
+test_DLLTests.py::test_find_one_item PASSED                              [ 61%]
+test_DLLTests.py::test_find_three_items PASSED                           [ 65%]
+test_DLLTests.py::test_remove_empty_list PASSED                          [ 69%]
+test_DLLTests.py::test_remove_one_item FAILED                            [ 73%]
+test_DLLTests.py:232 (test_remove_one_item)
+my_dll_one_item = <DoublyLinkedList.DoublyLinkedList object at 0x000002261D3A8730>
+
+    def test_remove_one_item(my_dll_one_item):
+        assert my_dll_one_item.remove("Cat") == "Cat", \
+            "Did not find item at head of one-item-list"
+        my_dll_one_item.reset_to_head()
+        with pytest.raises(IndexError):
+            my_dll_one_item.curr_data
+        my_dll_one_item.reset_to_tail()
+>       with pytest.raises(IndexError):
+E       Failed: DID NOT RAISE <class 'IndexError'>
+
+test_DLLTests.py:240: Failed
+
+test_DLLTests.py::test_remove_head_three_items PASSED                    [ 76%]
+test_DLLTests.py::test_remove_middle_three_items PASSED                  [ 80%]
+test_DLLTests.py::test_remove_tail_three_items PASSED                    [ 84%]
+test_DLLTests.py::test_remove_after_current_empty_list PASSED            [ 88%]
+test_DLLTests.py::test_remove_after_current_one_item PASSED              [ 92%]
+test_DLLTests.py::test_remove_after_current_middle_item_three_items PASSED [ 96%]
+test_DLLTests.py::test_remove_after_current_last_item_three_items PASSED [100%]
+
+======================== 1 failed, 25 passed in 0.15s =========================
+
+Process finished with exit code 1
+
+# I can see that it is not updating the tail to None, but I cannot get it to work! Grr!
+
+mylist = DoublyLinkedList.DoublyLinkedList()
+mylist.add_to_head('Cat')
+mylist.find('Cat')
+'Cat'
+mylist.reset_to_tail()
+mylist.reset_to_head()
+mylist.remove('Cat')
+'Cat'
+mylist.reset_to_head()
+mylist.add_to_head('Cat')
+mylist.remove('Cat')
+'Cat'
+mylist.reset_to_tail()
+mylist.find('Cat')
+Traceback (most recent call last):
+  File "C:\Users\chels\AppData\Local\Programs\Python\Python310\lib\code.py", line 90, in runcode
+    exec(code, self.locals)
+  File "<input>", line 1, in <module>
+  File "C:\Users\chels\PycharmProjects\neural-network-ckrowe22\DoublyLinkedList.py", line 119, in find
+    raise IndexError
+IndexError
+mylist.reset_to_head()
+mylist.reset_to_tail()
