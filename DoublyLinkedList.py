@@ -55,6 +55,7 @@ class DoublyLinkedList:
         self._head = self._head.next
         if not self._head:
             self._curr = None
+            self._tail = None
         else:
             self._head.prev = None
         self.reset_to_head()
