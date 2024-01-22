@@ -1,7 +1,7 @@
 import pycodestyle
 
 style = pycodestyle.StyleGuide()
-result = style.check_files(['DoublyLinkedList.py'])
+result = style.check_files(['NNData.py'])
 if result.total_errors > 0:
     print(f"The following PEP-8 violations were flagged:")
     print(f"Line\tError\n")

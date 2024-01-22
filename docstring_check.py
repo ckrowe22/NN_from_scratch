@@ -1,6 +1,6 @@
 import pydocstyle
 
-results = pydocstyle.check(["DoublyLinkedList.py"])
+results = pydocstyle.check(["NNData.py"])
 errors = 0
 for line in results:
     print(line)
