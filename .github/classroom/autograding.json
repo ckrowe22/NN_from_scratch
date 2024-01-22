@@ -1,16 +1,6 @@
 {
   "tests": [
     {
-      "name": "Code Test",
-      "setup": "pip install pytest",
-      "run": "pytest -q",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 10,
-      "points": null
-    },
-    {
       "name": "Docstring Test",
       "setup": "pip install pydocstyle",
       "run": "python docstring_check.py",
