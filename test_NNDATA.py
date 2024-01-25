@@ -256,36 +256,42 @@ def test_prime_data(bare_constructor: type(NNData.NNData)):
     assert test_list == [4, 2, 1, 6, 7], \
         ("self._test_pool should not be shuffled when "
          "prime_data is called with no arguments.")
-    my_data.prime_data(my_set=NNData.Set.TRAIN)
+    try:
+        my_data.prime_data(target_set=NNData.Set.TRAIN)
+    except TypeError:
+        my_data.prime_data(my_set=NNData.Set.TRAIN)
     while my_data._test_pool:
         my_data._test_pool.popleft()
     train_list = list(my_data._train_pool)
     assert set(train_list) == {3, 0, 5}, \
         ("self._train_pool does not contain the correct items when "
-         "prime_data is called with my_set=NNData.Set.TRAIN.")
+         "prime_data is called with target_set=NNData.Set.TRAIN.")
     assert len(my_data._test_pool) == 0, \
         ("self._test_pool should not be reset when "
-         "prime_data is called with my_set=NNData.Set.TRAIN.")
+         "prime_data is called with target_set=NNData.Set.TRAIN.")
     while my_data._train_pool:
         my_data._train_pool.popleft()
-    my_data.prime_data(my_set=NNData.Set.TEST)
+    try:
+        my_data.prime_data(target_set=NNData.Set.TEST)
+    except TypeError:
+        my_data.prime_data(my_set=NNData.Set.TEST)
     test_list = list(my_data._test_pool)
     assert set(test_list) == {4, 2, 1, 6, 7}, \
         ("self._test_pool does not contain the correct items when "
-         "prime_data is called with my_set=NNData.Set.TEST.")
+         "prime_data is called with target_set=NNData.Set.TEST.")
     assert len(my_data._train_pool) == 0, \
         ("self._train_pool should not be reset when "
-         "prime_data is called with my_set=NNData.Set.TEST.")
+         "prime_data is called with target_set=NNData.Set.TEST.")
     static_list = [i for i in range(100)]
     my_data._train_indices = copy.copy(static_list)
     my_data._test_indices = copy.copy(static_list)
     my_data.prime_data(order=NNData.Order.SHUFFLE)
     assert list(my_data._train_pool) != static_list, \
         ("self._train_pool is not getting shuffled when "
-         "prime_data is called with my_set=NNData.Order.SHUFFLE.")
+         "prime_data is called with order=NNData.Order.SHUFFLE.")
     assert list(my_data._test_pool) != static_list, \
         ("self._test_pool is not getting shuffled when "
-         "prime_data is called with my_set=NNData.Order.SHUFFLE.")
+         "prime_data is called with order=NNData.Order.SHUFFLE.")
 
 
 def test_pool_is_empty(bare_constructor: type(NNData.NNData)):
