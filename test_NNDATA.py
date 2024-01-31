@@ -12,6 +12,7 @@ try:
 except:
     pytest.fail("NNData.py file is not present")
 
+@staticmethod
 def bare_percentage_limiter(data_in):
     return data_in
 
