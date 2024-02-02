@@ -3,18 +3,17 @@ import collections
 import numpy as np
 import random
 
-XOR_features = [[0, 0], [0, 1], [1, 0], [1, 1]]
-XOR_labels = [[0], [1], [1], [0]]
-
 
 class Order(Enum):
     """Creating Order Enum class."""
+
     SHUFFLE = 1
     STATIC = 2
 
 
 class Set(Enum):
     """Create Set Enum class."""
+
     TRAIN = 1
     TEST = 2
 
@@ -23,6 +22,14 @@ class NNData:
     """Create NNData Class."""
 
     def __init__(self, features=None, labels=None, train_factor=.9):
+        """
+        Initialize an instance of DLLNode Class.
+
+        Parameters:
+        features (array): Features to be used in training/testing.
+        labels (array): Labels to be used in training/testing.
+        train_factor (float): Initial train factor set to .9
+        """
         if features is None:
             self._features = None
             self.features = []
@@ -49,7 +56,7 @@ class NNData:
             return percentage
 
     def load_data(self, features=None, labels=None):
-        """Load features and labels. """
+        """Load features and labels."""
         if features is None or labels is None:
             self._features = None
             self._labels = None
@@ -127,7 +134,7 @@ class NNData:
             return len(self._test_indices)
 
     def pool_is_empty(self, target_set=None):
-        """Determines if the training pool is empty."""
+        """Determine if the training pool is empty."""
         if target_set is None:
             target_set = Set.TRAIN
         if target_set == Set.TRAIN:
