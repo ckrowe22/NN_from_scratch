@@ -74,17 +74,20 @@ class NNData:
             self._features = None
             self._labels = None
             self.split_set()
-            raise ValueError("Failed to create numpy arrays from features and labels")
+            raise ValueError("Failed to create numpy arrays "
+                             "from features and labels")
         self.split_set()
 
     def split_set(self, new_train_factor=None):
         """Split dataset into testing and training data."""
         if new_train_factor is not None:
             self._train_factor = self.percentage_limiter(new_train_factor)
-        num_examples_loaded = len(self._features) if self._features is not None else 0
+        num_examples_loaded = len(self._features) \
+            if self._features is not None else 0
         train_size = int(num_examples_loaded * self._train_factor)
         self._train_indices = random.sample(range(num_examples_loaded), train_size)
-        self._test_indices = [i for i in range(num_examples_loaded) if i not in self._train_indices]
+        self._test_indices = [i for i in range(num_examples_loaded)
+                              if i not in self._train_indices]
 
     def prime_data(self, target_set=None, order=None):
         """Load the deques to be used as indirect indices."""
@@ -125,7 +128,7 @@ class NNData:
         return self._features[index], self._labels[index]
 
     def number_of_samples(self, target_set=None):
-        """Return a count of the total number of training or testing examples."""
+        """Return a count of training or testing examples."""
         if target_set is None:
             return len(self._train_indices) + len(self._test_indices)
         elif target_set == Set.TRAIN:
