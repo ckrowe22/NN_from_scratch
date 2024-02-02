@@ -85,7 +85,8 @@ class NNData:
         num_examples_loaded = len(self._features) \
             if self._features is not None else 0
         train_size = int(num_examples_loaded * self._train_factor)
-        self._train_indices = random.sample(range(num_examples_loaded), train_size)
+        self._train_indices = random.sample(
+            range(num_examples_loaded), train_size)
         self._test_indices = [i for i in range(num_examples_loaded)
                               if i not in self._train_indices]
 
