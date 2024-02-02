@@ -55,8 +55,8 @@ class NNData:
         if features is None or labels is None:
             self._features = None
             self._labels = None
-            self.spilt_set()
-            return
+            return self.spilt_set()
+            #return
         if len(features) != len(labels):
             self._features = None
             self._labels = None
