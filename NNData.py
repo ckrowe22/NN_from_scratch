@@ -26,12 +26,12 @@ class NNData:
         if features is None:
             self._features = []
         else:
-            self._features = features
+            self._features = None
 
         if labels is None:
             self._labels = []
         else:
-            self._labels = labels
+            self._labels = None
 
         self._train_factor = NNData.percentage_limiter(train_factor)
         self._train_indices = []
