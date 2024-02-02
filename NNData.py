@@ -80,21 +80,29 @@ class NNData:
         self._test_indices = [i for i in range(num_examples_loaded) if i not in self._train_indices]
 
     def prime_data(self, target_set=None, order=None):
-        """Priming the data."""
-        if target_set == Set.TRAIN:
-            self._train_pool = target_set
-        elif target_set == Set.TEST:
-            self._test_pool = target_set
+        """Loading the deques to be used as indirect indices."""
+        load_training_data = False
+        load_testing_data = False
 
         if target_set is None:
-            for i in self._test_indices:
-                self._train_pool.append(i)
-            for i in self._test_indices:
-                self._test_pool.append(i)
+            load_training_data = True
+            load_testing_data = True
+        elif target_set == Set.TRAIN:
+            load_training_data = True
+        elif target_set == Set.TEST:
+            load_testing_data = True
 
-        if order == Order.SHUFFLE:
-            random.shuffle(self._train_pool)
-            random.shuffle(self._test_pool)
+        if load_training_data:
+            self._train_pool.clear()
+            self._train_pool.extend(self._train_indices)
+            if order == Order.SHUFFLE:
+                random.shuffle(self._train_pool)
+
+        if load_testing_data:
+            self._test_pool.clear()
+            self._test_pool.extend(self._test_indices)
+            if order == Order.SHUFFLE:
+                random.shuffle(self._test_pool)
 
     def get_one_item(self, target_set=None):
         """Returns a feature-label pair as a tuple."""

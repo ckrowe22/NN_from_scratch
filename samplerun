@@ -1,109 +1,19 @@
-sys.path.extend(['C:\\Users\\chels\\PycharmProjects\\DLL', 'C:/Users/chels/PycharmProjects/DLL'])
-PyDev console: starting.
-Python 3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)] on win32
-import DLL
-mylist = DLL.DoublyLinkedList()
-mylist.add_to_head(5)
-mylist.add_to_head(4)
-mylist.add_after_current(3)
-mylist.move_forward()
-mylist.move_forward()
-mylist.add_after_current(1)
-mylist.move_forward()
-mylist.move_backward()
-mylist.find(3)
-3
-mylist.curr_data
-5
-mylist.remove(3)
-3
-mylist.find(3)
-Traceback (most recent call last):
-  File "C:\Users\chels\AppData\Local\Programs\Python\Python310\lib\code.py", line 90, in runcode
-    exec(code, self.locals)
-  File "<input>", line 1, in <module>
-  File "C:\Users\chels\PycharmProjects\DLL\DLL.py", line 101, in find
-    raise IndexError
-IndexError
-mylist.curr_data
-5
-mylist.remove_after_current()
-1
-mylist.find(1)
-Traceback (most recent call last):
-  File "C:\Users\chels\AppData\Local\Programs\Python\Python310\lib\code.py", line 90, in runcode
-    exec(code, self.locals)
-  File "<input>", line 1, in <module>
-  File "C:\Users\chels\PycharmProjects\DLL\DLL.py", line 101, in find
-    raise IndexError
-IndexError
-mylist.curr_data
-5
-mylist.reset_to_head()
-mylist.curr_data
-4
-mylist.reset_to_tail()
-mylist.curr_data
-5
-mylist.remove_from_head()
-4
-mylist.reset_to_tail()
-mylist.curr_data
-5
-
-Passed the tests!
-C:\Users\chels\AppData\Local\Programs\Python\Python310\python.exe "C:\Program Files\JetBrains\PyCharm Community Edition 2022.1.3\plugins\python-ce\helpers\pycharm\_jb_pytest_runner.py" --path C:/Users/chels/PycharmProjects/neural-network-ckrowe22/test_DLLTests.py
-Testing started at 7:42 PM ...
-Launching pytest with arguments C:/Users/chels/PycharmProjects/neural-network-ckrowe22/test_DLLTests.py --no-header --no-summary -q in C:\Users\chels\PycharmProjects\neural-network-ckrowe22
+Testing started at 10:16 PM ...
+Launching pytest with arguments C:/Users/chels/PycharmProjects/neural-network-ckrowe22/test_NNDATA.py --no-header --no-summary -q in C:\Users\chels\PycharmProjects\neural-network-ckrowe22
 
 ============================= test session starts =============================
-collecting ... collected 26 items
+collecting ... collected 9 items
 
-test_DLLTests.py::test_DLLNode PASSED                                    [  3%]
-test_DLLTests.py::test_property PASSED                                   [  7%]
-test_DLLTests.py::test_move_forward PASSED                               [ 11%]
-test_DLLTests.py::test_reset_to_head PASSED                              [ 15%]
-test_DLLTests.py::test_reset_to_tail PASSED                              [ 19%]
-test_DLLTests.py::test_move_back PASSED                                  [ 23%]
-test_DLLTests.py::test_move_forward_past_tail PASSED                     [ 26%]
-test_DLLTests.py::test_move_back_past_head PASSED                        [ 30%]
-test_DLLTests.py::test_add_after_current_no_head PASSED                  [ 34%]
-test_DLLTests.py::test_add_after_current_one_item_in_list PASSED         [ 38%]
-test_DLLTests.py::test_add_after_current_three_items_in_list PASSED      [ 42%]
-test_DLLTests.py::test_remove_from_head_no_items PASSED                  [ 46%]
-test_DLLTests.py::test_remove_from_head_one_item PASSED                  [ 50%]
-test_DLLTests.py::test_remove_from_head_three_items PASSED               [ 53%]
-test_DLLTests.py::test_find_empty_list PASSED                            [ 57%]
-test_DLLTests.py::test_find_one_item PASSED                              [ 61%]
-test_DLLTests.py::test_find_three_items PASSED                           [ 65%]
-test_DLLTests.py::test_remove_empty_list PASSED                          [ 69%]
-test_DLLTests.py::test_remove_one_item PASSED                            [ 73%]
-test_DLLTests.py::test_remove_head_three_items PASSED                    [ 76%]
-test_DLLTests.py::test_remove_middle_three_items PASSED                  [ 80%]
-test_DLLTests.py::test_remove_tail_three_items PASSED                    [ 84%]
-test_DLLTests.py::test_remove_after_current_empty_list PASSED            [ 88%]
-test_DLLTests.py::test_remove_after_current_one_item PASSED              [ 92%]
-test_DLLTests.py::test_remove_after_current_middle_item_three_items PASSED [ 96%]
-test_DLLTests.py::test_remove_after_current_last_item_three_items PASSED [100%]
+test_NNDATA.py::test_Enums PASSED                                        [ 11%]
+test_NNDATA.py::test_empty_constructor PASSED                            [ 22%]
+test_NNDATA.py::test_load_data_normal_operation PASSED                   [ 33%]
+test_NNDATA.py::test_load_data_error_condition PASSED                    [ 44%]
+test_NNDATA.py::test_percentage_limiter PASSED                           [ 55%]
+test_NNDATA.py::test_split_set PASSED                                    [ 66%]
+test_NNDATA.py::test_prime_data PASSED                                   [ 77%]
+test_NNDATA.py::test_pool_is_empty PASSED                                [ 88%]
+test_NNDATA.py::test_get_one_item PASSED                                 [100%]
 
-import sys; print('Python %s on %s' % (sys.version, sys.platform))
-sys.path.extend(['C:\\Users\\chels\\PycharmProjects\\neural-network-ckrowe22', 'C:/Users/chels/PycharmProjects/neural-network-ckrowe22'])
-PyDev console: starting.
-Python 3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)] on win32
-import DoublyLinkedList
-mylist = DoublyLinkedList.DoublyLinkedList()
-mylist.add_to_head('Cat')
-mylist.add_to_head('Dog')
-mylist.remove('Dog')
-'Dog'
-mylist.remove_from_head()
-'Cat'
-mylist.reset_to_tail()
-mylist.find('Cat')
-Traceback (most recent call last):
-  File "C:\Users\chels\AppData\Local\Programs\Python\Python310\lib\code.py", line 90, in runcode
-    exec(code, self.locals)
-  File "<input>", line 1, in <module>
-  File "C:\Users\chels\PycharmProjects\neural-network-ckrowe22\DoublyLinkedList.py", line 115, in find
-    raise IndexError
-IndexError
+============================== 9 passed in 0.16s ==============================
+
+Process finished with exit code 0
