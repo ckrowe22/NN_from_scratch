@@ -24,12 +24,14 @@ class NNData:
 
     def __init__(self, features=None, labels=None, train_factor=.9):
         if features is None:
-            self._features = []
-        else:
             self._features = None
+            features = []
+        else:
+            features = None
 
         if labels is None:
-            self._labels = []
+            self._labels = None
+            labels = []
         else:
             self._labels = None
 
@@ -55,8 +57,8 @@ class NNData:
         if features is None or labels is None:
             self._features = None
             self._labels = None
-            return self.spilt_set()
-            #return
+            self.split_set()
+            return
         if len(features) != len(labels):
             self._features = None
             self._labels = None
