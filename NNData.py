@@ -25,15 +25,11 @@ class NNData:
     def __init__(self, features=None, labels=None, train_factor=.9):
         if features is None:
             self._features = None
-            features = []
-        else:
-            features = None
+            self.features = []
 
         if labels is None:
             self._labels = None
-            labels = []
-        else:
-            self._labels = None
+            self.labels = []
 
         self._train_factor = NNData.percentage_limiter(train_factor)
         self._train_indices = []
@@ -84,33 +80,33 @@ class NNData:
         self._test_indices = [i for i in range(num_examples_loaded) if i not in self._train_indices]
 
     def prime_data(self, target_set=None, order=None):
-        if target_set is None:
-            target_set = [Set.TRAIN, Set.TEST]
-        elif isinstance(target_set, Set):
-            target_set = [target_set]
+        """Priming the data."""
+        if target_set == Set.TRAIN:
+            self._train_pool = target_set
+        elif target_set == Set.TEST:
+            self._test_pool = target_set
 
-        for i in target_set:
-            if i == Set.TRAIN:
-                pool = self._train_pool
-                indices = self._train_indices
-            else:
-                pool = self._test_pool
-                indices = self._test_indices
-            pool.clear()
-            pool.extend(indices)
-            if order == Order.SHUFFLE:
-                random.shuffle(pool)
+        if target_set is None:
+            for i in self._test_indices:
+                self._train_pool.append(i)
+            for i in self._test_indices:
+                self._test_pool.append(i)
+
+        if order == Order.SHUFFLE:
+            random.shuffle(self._train_pool)
+            random.shuffle(self._test_pool)
 
     def get_one_item(self, target_set=None):
         """Returns a feature-label pair as a tuple."""
-        pool = None
         if target_set == Set.TRAIN or target_set is None:
-            pool = self._test_pool
+            pool = self._train_pool
         elif target_set == Set.TEST:
             pool = self._test_pool
         if not pool:
             return None
         index = pool.popleft()
+        if index is None:
+            return None
         return self._features[index], self._labels[index]
 
     def number_of_samples(self, target_set=None):
