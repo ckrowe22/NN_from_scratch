@@ -14,13 +14,13 @@ class Order(Enum):
 
 
 class Set(Enum):
-    """Creating Set Enum class."""
+    """Create Set Enum class."""
     TRAIN = 1
     TEST = 2
 
 
 class NNData:
-    """Creating NNData Class."""
+    """Create NNData Class."""
 
     def __init__(self, features=None, labels=None, train_factor=.9):
         if features is None:
@@ -40,7 +40,7 @@ class NNData:
 
     @staticmethod
     def percentage_limiter(percentage: float):
-        """Keeps percentage between 0 and 1."""
+        """Keep percentage between 0 and 1."""
         if percentage < 0:
             return 0
         elif percentage > 1:
@@ -49,7 +49,7 @@ class NNData:
             return percentage
 
     def load_data(self, features=None, labels=None):
-        """Loads features and data to determine if """
+        """Load features and labels. """
         if features is None or labels is None:
             self._features = None
             self._labels = None
@@ -71,7 +71,7 @@ class NNData:
         self.split_set()
 
     def split_set(self, new_train_factor=None):
-        """Splits dataset into testing and training data."""
+        """Split dataset into testing and training data."""
         if new_train_factor is not None:
             self._train_factor = self.percentage_limiter(new_train_factor)
         num_examples_loaded = len(self._features) if self._features is not None else 0
@@ -80,7 +80,7 @@ class NNData:
         self._test_indices = [i for i in range(num_examples_loaded) if i not in self._train_indices]
 
     def prime_data(self, target_set=None, order=None):
-        """Loading the deques to be used as indirect indices."""
+        """Load the deques to be used as indirect indices."""
         load_training_data = False
         load_testing_data = False
 
@@ -105,7 +105,7 @@ class NNData:
                 random.shuffle(self._test_pool)
 
     def get_one_item(self, target_set=None):
-        """Returns a feature-label pair as a tuple."""
+        """Return a feature-label pair as a tuple."""
         if target_set == Set.TRAIN or target_set is None:
             pool = self._train_pool
         elif target_set == Set.TEST:
@@ -118,7 +118,7 @@ class NNData:
         return self._features[index], self._labels[index]
 
     def number_of_samples(self, target_set=None):
-        """Returns a count of the total number of training or testing examples."""
+        """Return a count of the total number of training or testing examples."""
         if target_set is None:
             return len(self._train_indices) + len(self._test_indices)
         elif target_set == Set.TRAIN:
