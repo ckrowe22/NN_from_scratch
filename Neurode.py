@@ -79,7 +79,13 @@ class Neurode(MultiLinkNode, ABC):
             self._weights[node] = random.random()
 
     def _check_in(self, node: Neurode, side: ABC.Side):
-        ...
+        index = self._neighbors[side].index(node)
+        self._reporting_nodes[side] = node[index]
+        if self._reporting_nodes[side] == self._reference_value:
+            self._reporting_nodes = 0
+            return True
+        else:
+            return False
 
     def get_weight(self, node: Neurode):
         return self._weights.get(node, None)
