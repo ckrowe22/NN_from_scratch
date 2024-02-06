@@ -1,10 +1,11 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from enum import Enum
+import random
 
 
 class MultiLinkNode(ABC):
-    """..."""
+    """Creating Abstract Base Class MultiLinkNode."""
 
     class Side(Enum):
         """Enum class to identify neurode relationships."""
@@ -25,7 +26,7 @@ class MultiLinkNode(ABC):
                f'\nUpstream Node IDs: {self._neighbors[self.Side.UPSTREAM]} ' \
                f'\nDownstream Node IDs: {self._neighbors[self.Side.DOWNSTREAM]}'
 
-    @abstractmethod #?
+    @abstractmethod
     def _process_new_neighbor(self, node: MultiLinkNode, side: Side):
         """..."""
         pass
@@ -43,16 +44,19 @@ class MultiLinkNode(ABC):
         # We don't want to create new MultiLinkNodes, we want references to nodes
         # that already exist.
 
-class Neurode(MultiLinkNode):
-    """Class inheriting from MultiLinkNode"""
-    _learning_rate = 0.05
 
-    def __init__(self): #call parent class constructor
+class Neurode(MultiLinkNode, ABC):
+    """Class inheriting from MultiLinkNode"""
+
+    _learning_rate = .05
+
+    def __init__(self):
         """Initialize an instance of MultiLinkNode Class.
         Parameters: None.
         """
         self._value = 0
         self._weights = {}
+        super().__init__()
 
     @property
     def learning_rate(self):
@@ -61,7 +65,7 @@ class Neurode(MultiLinkNode):
 
     @learning_rate.setter
     def learning_rate(self, value: float):
-        self.__class__._learning_rate = value
+        self._learning_rate = value
 
         # This is actually a pair of methods, a setter and a getter coded
         # with the @ property decorator.They should get or set the class
@@ -69,3 +73,17 @@ class Neurode(MultiLinkNode):
         # truly behaves as a class attribute.In other words, changing the
         # learning rate for one object of the class should change the learning rate
         # for all objects of the class.
+
+    def _process_new_neighbor(self, node: MultiLinkNode, side: ABC.Side):
+        if side == ABC.Side.UPSTREAM:
+            self._weights[node] = random.random()
+
+    def _check_in(self, node: Neurode, side: ABC.Side):
+        ...
+
+    def get_weight(self, node: Neurode):
+        return self._weights.get(node, None)
+
+    @property
+    def value(self):
+        return self._value
