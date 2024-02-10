@@ -1,19 +1,37 @@
-Testing started at 10:16 PM ...
-Launching pytest with arguments C:/Users/chels/PycharmProjects/neural-network-ckrowe22/test_NNDATA.py --no-header --no-summary -q in C:\Users\chels\PycharmProjects\neural-network-ckrowe22
+C:\Users\chels\AppData\Local\Programs\Python\Python310\python.exe "C:\Program Files\JetBrains\PyCharm Community Edition 2022.1.3\plugins\python-ce\helpers\pycharm\_jb_pytest_runner.py" --path C:/Users/chels/PycharmProjects/neural-network-ckrowe22/test_Neurode.py
+Testing started at 8:43 AM ...
+Launching pytest with arguments C:/Users/chels/PycharmProjects/neural-network-ckrowe22/test_Neurode.py --no-header --no-summary -q in C:\Users\chels\PycharmProjects\neural-network-ckrowe22
 
 ============================= test session starts =============================
-collecting ... collected 9 items
+collecting ... collected 6 items
 
-test_NNDATA.py::test_Enums PASSED                                        [ 11%]
-test_NNDATA.py::test_empty_constructor PASSED                            [ 22%]
-test_NNDATA.py::test_load_data_normal_operation PASSED                   [ 33%]
-test_NNDATA.py::test_load_data_error_condition PASSED                    [ 44%]
-test_NNDATA.py::test_percentage_limiter PASSED                           [ 55%]
-test_NNDATA.py::test_split_set PASSED                                    [ 66%]
-test_NNDATA.py::test_prime_data PASSED                                   [ 77%]
-test_NNDATA.py::test_pool_is_empty PASSED                                [ 88%]
-test_NNDATA.py::test_get_one_item PASSED                                 [100%]
+test_Neurode.py::test_Neurode PASSED                                     [ 16%]
+test_Neurode.py::test_Neurode_as_child_class PASSED                      [ 33%]
+test_Neurode.py::test_learning_rate PASSED                               [ 50%]
+test_Neurode.py::test_value PASSED                                       [ 66%]
+test_Neurode.py::test_weights PASSED                                     [ 83%]
+test_Neurode.py::test_check_in PASSED                                    [100%]
 
-============================== 9 passed in 0.16s ==============================
+============================== 6 passed in 0.03s ==============================
+
+Process finished with exit code 0
+
+C:\Users\chels\AppData\Local\Programs\Python\Python310\python.exe "C:\Program Files\JetBrains\PyCharm Community Edition 2022.1.3\plugins\python-ce\helpers\pycharm\_jb_pytest_runner.py" --path C:/Users/chels/PycharmProjects/neural-network-ckrowe22/test_MultiLinkNode.py
+Testing started at 8:43 AM ...
+Launching pytest with arguments C:/Users/chels/PycharmProjects/neural-network-ckrowe22/test_MultiLinkNode.py --no-header --no-summary -q in C:\Users\chels\PycharmProjects\neural-network-ckrowe22
+
+============================= test session starts =============================
+collecting ... collected 8 items
+
+test_MultiLinkNode.py::test_MultiLinkNode PASSED                         [ 12%]
+test_MultiLinkNode.py::test_MultiLinkNode_is_ABC PASSED                  [ 25%]
+test_MultiLinkNode.py::test_Side PASSED                                  [ 37%]
+test_MultiLinkNode.py::test_reporting_nodes PASSED                       [ 50%]
+test_MultiLinkNode.py::test_initial_reference_value PASSED               [ 62%]
+test_MultiLinkNode.py::test_copy_vs_deepcopy PASSED                      [ 75%]
+test_MultiLinkNode.py::test_final_reference_value PASSED                 [ 87%]
+test_MultiLinkNode.py::test_neighbors_reset_before_loading_new_nodes PASSED [100%]
+
+============================== 8 passed in 0.05s ==============================
 
 Process finished with exit code 0
