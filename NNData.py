@@ -1,4 +1,4 @@
-"""This module contains classes and methods for handling neural network data."""
+"""This module contains classes and methods to handle NN data."""
 
 from enum import Enum
 import collections
