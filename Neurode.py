@@ -34,7 +34,7 @@ class MultiLinkNode(ABC):
     def reset_neighbors(self, nodes: list, side: Side):
         """Reset neighbor nodes."""
         self._neighbors[side] = []
-        self._neighbors[side] = nodes[:]  # copy of nodes
+        self._neighbors[side] = nodes[:]
         num_nodes = len(nodes)
         if num_nodes > 0:
             self._reference_value[side] = 2 ** num_nodes - 1
@@ -73,9 +73,9 @@ class Neurode(MultiLinkNode, ABC):
             self._weights[node] = random.random()
 
     def _check_in(self, node: Neurode, side: MultiLinkNode.Side):
-        """"Checks if neighboring nodes have reported."""
+        """Checks if neighboring nodes have reported."""
         index = self._neighbors[side].index(node)
-        self._reporting_nodes[side] |= 1 << index  # try bitwise or?
+        self._reporting_nodes[side] |= 1 << index
         if self._reporting_nodes[side] == self._reference_value[side]:
             self._reporting_nodes[side] = 0
             return True
