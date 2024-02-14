@@ -17,7 +17,7 @@ class FFNeurode(Neurode):
         """Implementing logistic function."""
         return 1/(1 + exp(-value))
 
-    def _calculate_values(self):
+    def _calculate_value(self):
         """Using sigmoid function on upstream weights."""
         weighted_sum = 0
         for node in self._neighbors[Neurode.Side.UPSTREAM]:
@@ -34,7 +34,7 @@ class FFNeurode(Neurode):
     def data_ready_upstream(self, node: Neurode):
         """Processing data from ready nodes upstream."""
         if self._check_in(node, Neurode.Side.UPSTREAM):
-            self._calculate_values()
+            self._calculate_value()
             self._fire_downstream()
         else:
             raise ValueError("No data upstream.")
