@@ -36,8 +36,8 @@ class FFNeurode(Neurode):
         if self._check_in(node, Neurode.Side.UPSTREAM):
             self._calculate_value()
             self._fire_downstream()
-        else:
-            raise ValueError("No data upstream.")
+        # else:
+        #     raise ValueError("No data upstream.")
 
     def set_input(self, input_value: float):
         """Setting the value of an input layer neurode."""
