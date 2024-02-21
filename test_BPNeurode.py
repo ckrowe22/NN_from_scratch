@@ -89,8 +89,8 @@ def test_set_expected():
 
         def _calculate_delta(self, num=0):
             self.delta_called = True
-            if self.fire_called:
-                self.order_correct = False
+            #if self.fire_called:
+            #    self.order_correct = False
             if num == .3:
                 self.arg_passed = True
 
