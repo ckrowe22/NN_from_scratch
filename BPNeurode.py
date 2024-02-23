@@ -19,16 +19,12 @@ class BPNeurode(Neurode):
     def _calculate_delta(self, expected_value: float = None):
         """Calculate delta for the neurode."""
 
-        #output layer nodes - this works
         if expected_value is not None:
             self._delta = (expected_value - self.value) * self._sigmoid_derivative(self.value)
-        #hidden layer nodes - this does not :(
         else:
             hidden_delta = 0
-            # Calculate the sum of the product of downstream node's delta and the weight
             for node in self._neighbors[Neurode.Side.DOWNSTREAM]:
-                hidden_delta += node.delta * self.get_weight(node)
-            # Multiply by the derivative of the sigmoid function applied to the current node's value
+                hidden_delta += node.delta * node.get_weight(self)
             self._delta = hidden_delta * self._sigmoid_derivative(self.value)
 
     def data_ready_downstream(self, node: Neurode):
