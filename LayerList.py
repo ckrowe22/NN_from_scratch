@@ -1,5 +1,5 @@
-import DoublyLinkedList
-import Neurode
+from DoublyLinkedList import DoublyLinkedList
+from Neurode import Neurode
 
 
 class LayerList(DoublyLinkedList):
@@ -28,9 +28,14 @@ class LayerList(DoublyLinkedList):
     def add_layer(self, num_nodes: int):
         if self._curr == self._tail:
             raise IndexError("Cannot add to output layer.")
-        new_layer = self.create_layer(num_nodes, self._neurode_type)
+        new_layer = self._create_layer(num_nodes, self._neurode_type)
         self.add_after_current(new_layer)
-        self.link_layers(self._curr.data, new_layer)
+        if self._curr == self._head:
+            self.link_layers(self._curr.data, new_layer)
+            self.link_layers(new_layer, self._curr.next.data)
+        else:
+            self.link_layers(self._curr.data, new_layer)
+            self.link_layers(new_layer, self._curr.prev.data)
 
     def remove_layer(self):
         if self._curr == self._tail:
