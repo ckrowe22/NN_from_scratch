@@ -7,4 +7,4 @@ class FFBPNeurode(FFNeurode, BPNeurode):
     pass
 
 
-print(FFBPNeurode.mro())
+# print(FFBPNeurode.mro())
