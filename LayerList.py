@@ -44,8 +44,8 @@ class LayerList(DoublyLinkedList):
         new_layer = create_layer(num_nodes, self._neurode_type)
         self.add_after_current(new_layer)
         link_layers(self._curr.data, new_layer)
-        self.move_forward()
         if self._curr.next:
+            self.move_forward()
             link_layers(new_layer, self._curr.data)
 
     def remove_layer(self):
