@@ -38,24 +38,22 @@ class LayerList(DoublyLinkedList):
 
     def add_layer(self, num_nodes: int):
         """Add a layer of nodes."""
+
         if self._curr == self._tail:
             raise IndexError("Cannot add to output layer.")
         new_layer = create_layer(num_nodes, self._neurode_type)
         self.add_after_current(new_layer)
         link_layers(self._curr.data, new_layer)
         self.move_forward()
-        if self._curr.prev:
-            link_layers(self._curr.prev.data, self._curr.data)
         if self._curr.next:
-            link_layers(self._curr.data, self._curr.next.data)
+            link_layers(new_layer, self._curr.data)
 
     def remove_layer(self):
-        """Remove a layer of nodes."""
-        if self._curr == self._tail:
+        """Remove a layer of nodes after the current layer."""
+        if self._curr.next == self._tail or self._curr == self._tail:
             raise IndexError("Cannot remove output layer.")
         self.remove_after_current()
-        if self._curr.next:  # Ensure there is a next layer before moving forward
-            self.link_layers(self._curr.data, self._curr.next.data)
+        link_layers(self._curr.data, self._curr.next.data)
 
     @property
     def input_nodes(self):
