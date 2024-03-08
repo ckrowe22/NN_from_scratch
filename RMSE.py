@@ -31,8 +31,8 @@ class RMSE(ABC):
         """Calculates RMSE and returns total error."""
         if not self._data:
             return 0
-        squared_errors = [self.distance(predicted, expected) for predicted, expected in self._data]
-        mean_squared_error = sum(squared_errors) / len(squared_errors)
+        errors = [self.distance(predicted, expected) for predicted, expected in self._data]
+        mean_squared_error = sum(errors) / len(errors)
         return sqrt(mean_squared_error)
 
     @staticmethod
@@ -53,4 +53,4 @@ class Taxicab(RMSE):
     @staticmethod
     def distance(predicted_output, expected_output):
         """Calculates the Taxicab/Manhattan distance."""
-        return sum(abs(predicted_output[i] - expected_output[i]) for i in range(len(predicted_output)))
+        return sum(abs(predicted_output[i] - expected_output[i]) for i in range(len(predicted_output)))**2
