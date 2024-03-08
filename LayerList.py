@@ -2,14 +2,6 @@ from DoublyLinkedList import DoublyLinkedList
 from Neurode import Neurode
 
 
-def link_layers(input_list, output_list):
-    """Helper function to link layers."""
-    for upstream_node in input_list:
-        upstream_node.reset_neighbors(output_list, Neurode.Side.DOWNSTREAM)
-    for downstream_node in output_list:
-        downstream_node.reset_neighbors(input_list, Neurode.Side.UPSTREAM)
-
-
 def create_layer(num_nodes: int, neurode_type: type(Neurode)):
     """Helper function to create lists of nodes in layer."""
     new_layer_list = [neurode_type() for x in range(num_nodes)]
@@ -34,7 +26,14 @@ class LayerList(DoublyLinkedList):
         self.output_layer = create_layer(outputs, neurode_type)
         self.add_to_head(self.input_layer)
         self.add_after_current(self.output_layer)
-        link_layers(self.input_layer, self.output_layer)
+        self.link_layers()
+
+    def link_layers(self):
+        """Helper function to link layers."""
+        for node in self._curr.data:
+            node.reset_neighbors(self._curr.next.data, self._neurode_type.Side.DOWNSTREAM)
+        for node in self._curr.next.data:
+            node.reset_neighbors(self._curr.data, self._neurode_type.Side.UPSTREAM)
 
     def add_layer(self, num_nodes: int):
         """Add a layer of nodes."""
@@ -43,17 +42,18 @@ class LayerList(DoublyLinkedList):
             raise IndexError("Cannot add to output layer.")
         new_layer = create_layer(num_nodes, self._neurode_type)
         self.add_after_current(new_layer)
-        link_layers(self._curr.data, new_layer)
+        self.link_layers()
         if self._curr.next:
             self.move_forward()
-            link_layers(new_layer, self._curr.data)
+            self.link_layers()
+            self.move_backward()
 
     def remove_layer(self):
         """Remove a layer of nodes after the current layer."""
         if self._curr.next == self._tail or self._curr == self._tail:
             raise IndexError("Cannot remove output layer.")
         self.remove_after_current()
-        link_layers(self._curr.data, self._curr.next.data)
+        self.link_layers()
 
     @property
     def input_nodes(self):
