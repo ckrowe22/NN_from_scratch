@@ -22,13 +22,15 @@ class LayerList(DoublyLinkedList):
         """
         super().__init__()
         self._neurode_type = neurode_type
+        if inputs < 1 or outputs < 1:
+            raise ValueError
         self.input_layer = create_layer(inputs, neurode_type)
         self.output_layer = create_layer(outputs, neurode_type)
         self.add_to_head(self.input_layer)
         self.add_after_current(self.output_layer)
-        self.link_layers()
+        self.link_with_next_layer()
 
-    def link_layers(self):
+    def link_with_next_layer(self):
         """Helper function to link layers."""
         for node in self._curr.data:
             node.reset_neighbors(self._curr.next.data, self._neurode_type.Side.DOWNSTREAM)
@@ -37,15 +39,16 @@ class LayerList(DoublyLinkedList):
 
     def add_layer(self, num_nodes: int):
         """Add a layer of nodes."""
-
         if self._curr == self._tail:
             raise IndexError("Cannot add to output layer.")
+        if num_nodes > 0:
+            raise ValueError
         new_layer = create_layer(num_nodes, self._neurode_type)
         self.add_after_current(new_layer)
-        self.link_layers()
+        self.link_with_next_layer()
         if self._curr.next:
             self.move_forward()
-            self.link_layers()
+            self.link_with_next_layer()
             self.move_backward()
 
     def remove_layer(self):
@@ -53,7 +56,7 @@ class LayerList(DoublyLinkedList):
         if self._curr.next == self._tail or self._curr == self._tail:
             raise IndexError("Cannot remove output layer.")
         self.remove_after_current()
-        self.link_layers()
+        self.link_with_next_layer()
 
     @property
     def input_nodes(self):
