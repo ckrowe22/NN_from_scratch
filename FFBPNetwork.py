@@ -33,10 +33,6 @@ class FFBPNetwork:
                 self.layers.move_forward()
             self.layers.add_layer(num_nodes)
         self.layers.add_layer(num_nodes)
-        # if position is greater than 0, advance that many layers before inserting the hidden layer.
-        # For example, if position is 2, the new hidden layer will become the third hidden layer in
-        # the network (or the fourth layer, including the input layer).
-        # add error handling
 
     def train(self, data_set: NNData, epochs=1000, verbosity=2, order=Order.SHUFFLE):
         if not data_set:
@@ -50,14 +46,11 @@ class FFBPNetwork:
                 for i, feature in enumerate(features):  # Present the features list to input neurodes
                     self.layers.input_nodes[i].set_input(feature)
                 expected = [node.value for node in self.layers.output_nodes] #collect the values of output nodes
-                # for i, label in enumerate(labels):
-                #     self.layers.output_nodes[i].set_expected(label)
-                #     self.layers.output_nodes[i].data_ready_downstream(self.layers.output_nodes[i])
                 rmse += (expected, labels) # Store the predicted and expected values in RMSE object
                 if verbosity > 1 and epoch % 1000 == 0:
                     print(f"Epoch {epoch}: RMSE = {rmse.error}")
-            if verbosity > 0:
-                print(f"Epoch {epoch}: RMSE = {rmse.error}")
+            if verbosity > 0 and epoch % 100 == 0:
+                print(f"Epoch {epoch}: Input = {l} RMSE = {rmse.error}")
         print(f"Epoch {epoch}: Final RMSE = {rmse.error}")
 
     def test(self, data_set: NNData, order=Order.STATIC):
@@ -71,9 +64,6 @@ class FFBPNetwork:
             for i, feature in enumerate(features):  # Present the features list to input neurodes
                 self.layers.input_nodes[i].set_input(feature)
             expected = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
-                # for i, label in enumerate(labels):
-                #     self.layers.output_nodes[i].set_expected(label)
-                #     self.layers.output_nodes[i].data_ready_downstream(self.layers.output_nodes[i])
             rmse += (expected, labels)  # Store the predicted and expected values in RMSE object
         print(f"Test RMSE: {rmse.error}")
 
