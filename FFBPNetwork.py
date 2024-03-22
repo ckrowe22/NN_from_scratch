@@ -1,22 +1,18 @@
-from abc import ABC
-
 from NNData import NNData, Order, Set
 import RMSE
 from LayerList import LayerList
-from Neurode import Neurode
 from FFBPNeurode import FFBPNeurode
-from DoublyLinkedList import DoublyLinkedList
-import numpy as np
-import json
 
 
 class FFBPNetwork:
     """."""
 
     class EmptySetException(Exception):
+        """>"""
         pass
 
     def __init__(self, num_inputs: int, num_outputs: int, error_model: type(RMSE)):
+        """."""
         self.layers = LayerList(num_inputs, num_outputs, FFBPNeurode)
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
@@ -27,8 +23,9 @@ class FFBPNetwork:
         # store the num of input/output nodes as instance attributes
 
     def add_hidden_layer(self, num_nodes: int, position=0):
+        """Adds hidden layer with the given number of nodes directly after input layer or position."""
         # add hidden layer with the given num of nodes directly after inout layer
-        if num_nodes < 0:
+        if num_nodes <= 0:
             raise ValueError
         self.layers.reset_to_head()
         if position > 0:
@@ -50,26 +47,26 @@ class FFBPNetwork:
             data_set.prime_data(target_set=Set.TRAIN, order=order)  # Prime data using specified order
             while not data_set.pool_is_empty(target_set=Set.TRAIN):  # Ensure training set not exhausted
                 features, labels = data_set.get_one_item(target_set=Set.TRAIN)  # Get a feature label pair from dataset
-                self.set_input(features)  # present the feature list to input neurodes
+                for i, feature in enumerate(features):  # Present the features list to input neurodes
+                    self.layers.input_nodes[i].set_input(feature)
 
-                # check values at output neurodes, store predicted/expected values in RMSE object
-                # present expected values to output neurodes
+                for layer in self.layers.input_nodes: # check the values at the output neurodes
+                    for node in layer:
+                        node.data_ready_downstream(node)
 
+                # for layer, feature_value in zip(self.layers, features):
+                #     layer.input_nodes(feature_value)
+
+                for i, label in enumerate(labels):
+                    self.layers.output_nodes[i].set_expected(label)
+                    self.layers.output_nodes[i].data_ready_downstream(self.layers.output_nodes[i])
+                expected = [node.value for node in self.layers.output_nodes]
+                rmse += (expected, labels) # Store the predicted and expected values in RMSE object
                 if verbosity > 1 and epoch % 1000 == 0:
                     print(f"Epoch {epoch}: RMSE = {rmse.error()}")
-        if verbosity > 0:
-            print(f"Epoch {epoch}: Final RMSE = {rmse.error()}")
+            if verbosity > 0:
+                print(f"Epoch {epoch}: Final RMSE = {rmse.error()}")
 
-    #     reset your RMSE object
-    #     prime the data using the specified order
-    #     while data_set is not exhausted:
-    #         get a feature and label pair from the dataset
-    #         present the feature list to the input neurodes
-    #         check the values at the output neurodes, store the predicted and expected values in your RMSE object.
-    #         present the expected values to the output neurodes
-    #         make any necessary report (verbosity > 1)
-    #     make any necessary report (verbosity > 0)
-    # report the final RMSE
     def test(self, data_set: NNData, order=Order.STATIC):
         if not data_set:
             raise self.EmptySetException
