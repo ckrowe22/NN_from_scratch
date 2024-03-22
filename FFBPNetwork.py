@@ -1,7 +1,7 @@
 from abc import ABC
 
 from NNData import NNData, Order, Set
-from RMSE import RMSE, Euclidean, Taxicab
+import RMSE
 from LayerList import LayerList
 from Neurode import Neurode
 from FFBPNeurode import FFBPNeurode
@@ -44,13 +44,14 @@ class FFBPNetwork:
     def train(self, data_set: NNData, epochs=1000, verbosity=2, order=Order.SHUFFLE):
         if not data_set:
             raise self.EmptySetException
-        rmse = RMSE()
+        rmse = self.error_model()
         for epoch in range(epochs):
             rmse.reset()  # Reset RMSE Object
             data_set.prime_data(target_set=Set.TRAIN, order=order)  # Prime data using specified order
             while not data_set.pool_is_empty(target_set=Set.TRAIN):  # Ensure training set not exhausted
                 features, labels = data_set.get_one_item(target_set=Set.TRAIN)  # Get a feature label pair from dataset
-                self.set_input()  # present the feature list to input neurodes
+                self.set_input(features)  # present the feature list to input neurodes
+
                 # check values at output neurodes, store predicted/expected values in RMSE object
                 # present expected values to output neurodes
 
@@ -72,11 +73,11 @@ class FFBPNetwork:
     def test(self, data_set: NNData, order=Order.STATIC):
         if not data_set:
             raise self.EmptySetException
-        rmse = RMSE()
+        rmse = self.error_model()
         data_set.prime_data(target_set=Set.TEST, order=order)  # Prime data using specified order
         while not data_set.pool_is_empty(target_set=Set.TEST):  # Ensure training set not exhausted
             features, labels = data_set.get_one_item(target_set=Set.TRAIN)  # Get a feature label pair from dataset
-            self.set_input()  # present the feature list to input neurodes
+            self.set_input(features)  # present the feature list to input neurodes
             # check values at output neurodes, store predicted/expected values in RMSE object
             # present expected values to output neurodes
             print(f"Input: {feature}, Expected: {label}, Output: {self.layers.output_nodes}")
