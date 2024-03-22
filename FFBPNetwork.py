@@ -49,35 +49,32 @@ class FFBPNetwork:
                 features, labels = data_set.get_one_item(target_set=Set.TRAIN)  # Get a feature label pair from dataset
                 for i, feature in enumerate(features):  # Present the features list to input neurodes
                     self.layers.input_nodes[i].set_input(feature)
-
-                for layer in self.layers.input_nodes: # check the values at the output neurodes
-                    for node in layer:
-                        node.data_ready_downstream(node)
-
-                # for layer, feature_value in zip(self.layers, features):
-                #     layer.input_nodes(feature_value)
-
-                for i, label in enumerate(labels):
-                    self.layers.output_nodes[i].set_expected(label)
-                    self.layers.output_nodes[i].data_ready_downstream(self.layers.output_nodes[i])
-                expected = [node.value for node in self.layers.output_nodes]
+                expected = [node.value for node in self.layers.output_nodes] #collect the values of output nodes
+                # for i, label in enumerate(labels):
+                #     self.layers.output_nodes[i].set_expected(label)
+                #     self.layers.output_nodes[i].data_ready_downstream(self.layers.output_nodes[i])
                 rmse += (expected, labels) # Store the predicted and expected values in RMSE object
                 if verbosity > 1 and epoch % 1000 == 0:
-                    print(f"Epoch {epoch}: RMSE = {rmse.error()}")
+                    print(f"Epoch {epoch}: RMSE = {rmse.error}")
             if verbosity > 0:
-                print(f"Epoch {epoch}: Final RMSE = {rmse.error()}")
+                print(f"Epoch {epoch}: RMSE = {rmse.error}")
+        print(f"Epoch {epoch}: Final RMSE = {rmse.error}")
 
     def test(self, data_set: NNData, order=Order.STATIC):
         if not data_set:
             raise self.EmptySetException
         rmse = self.error_model()
+        rmse.reset()  # Reset RMSE Object
         data_set.prime_data(target_set=Set.TEST, order=order)  # Prime data using specified order
         while not data_set.pool_is_empty(target_set=Set.TEST):  # Ensure training set not exhausted
-            features, labels = data_set.get_one_item(target_set=Set.TRAIN)  # Get a feature label pair from dataset
-            self.set_input(features)  # present the feature list to input neurodes
-            # check values at output neurodes, store predicted/expected values in RMSE object
-            # present expected values to output neurodes
-            print(f"Input: {feature}, Expected: {label}, Output: {self.layers.output_nodes}")
+            features, labels = data_set.get_one_item(target_set=Set.TEST)  # Get a feature label pair from dataset
+            for i, feature in enumerate(features):  # Present the features list to input neurodes
+                self.layers.input_nodes[i].set_input(feature)
+            expected = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
+                # for i, label in enumerate(labels):
+                #     self.layers.output_nodes[i].set_expected(label)
+                #     self.layers.output_nodes[i].data_ready_downstream(self.layers.output_nodes[i])
+            rmse += (expected, labels)  # Store the predicted and expected values in RMSE object
         print(f"Test RMSE: {rmse.error}")
 
 
