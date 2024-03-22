@@ -41,7 +41,7 @@ class LayerList(DoublyLinkedList):
         """Add a layer of nodes."""
         if self._curr == self._tail:
             raise IndexError("Cannot add to output layer.")
-        if num_nodes > 0:
+        if num_nodes < 0:
             raise ValueError
         new_layer = create_layer(num_nodes, self._neurode_type)
         self.add_after_current(new_layer)
