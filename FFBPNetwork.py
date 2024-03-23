@@ -47,12 +47,13 @@ class FFBPNetwork:
                     self.layers.input_nodes[i].set_input(feature)
                 for i, label in enumerate(labels):  # Present the features list to input neurodes
                     self.layers.output_nodes[i].set_expected(label)
-                expected = [node.value for node in self.layers.output_nodes] #collect the values of output nodes
-                rmse += (expected, labels) # Store the predicted and expected values in RMSE object
+                predicted = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
+                rmse += (predicted, labels)  # Store the predicted and expected values in RMSE object
                 if verbosity > 1 and epoch % 1000 == 0:
-                    print(f"Epoch {epoch}: Input: {features} Expected: {expected} Predicted: {labels} RMSE = {rmse.error}")
+                    print(
+                        f"Epoch {epoch}: Input: {features} Expected: {labels} Predicted: {predicted} RMSE = {rmse.error}")
             if verbosity > 0 and epoch % 100 == 0:
-                print(f"Epoch {epoch}: Input: {features} Expected: {expected} Predicted: {labels} RMSE = {rmse.error}")
+                print(f"Epoch {epoch}: RMSE = {rmse.error}")
         print(f"Epoch {epoch}: Final RMSE = {rmse.error}")
 
     def test(self, data_set: NNData, order=Order.STATIC):
@@ -65,11 +66,12 @@ class FFBPNetwork:
             features, labels = data_set.get_one_item(target_set=Set.TEST)  # Get a feature label pair from dataset
             for i, feature in enumerate(features):  # Present the features list to input neurodes
                 self.layers.input_nodes[i].set_input(feature)
-            #expected = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
+            # expected = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
             for i, label in enumerate(labels):
                 self.layers.output_nodes[i].set_expected(label)
-            expected = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
-            rmse += (expected, labels)  # Store the predicted and expected values in RMSE object
+            predicted = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
+            rmse += (predicted, labels)  # Store the predicted and expected values in RMSE object
+            print(f"Input: {features} Expected: {labels} Predicted: {predicted}")
         print(f"Test RMSE: {rmse.error}")
 
 
@@ -197,12 +199,13 @@ def run_sin():
 
 
 def run_XOR():
-    # network = FFBPNetwork(2, 1, RMSE.Euclidean)
-    # network.add_hidden_layer(2)
-    # x = [[0, 0], [0,1], [1,0], [1,1]]
-    # y = [[0], [1], [1], [0]]
-    #
-    # for _ in range(1000):
-    #     for i in range(len(x)):
-    #         network.train(
-    assert False
+    network = FFBPNetwork(2, 1, RMSE.Euclidean)
+    network.add_hidden_layer(2)
+    features_x = [[0, 0], [0, 1], [1, 0], [1, 1]]
+    labels_y = [[0], [1], [1], [0]]
+    data = NNData(features_x, labels_y)
+    network.train(data, 9001)
+    network.test(data)
+
+
+run_XOR()
