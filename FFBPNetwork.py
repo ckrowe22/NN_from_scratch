@@ -5,26 +5,28 @@ from FFBPNeurode import FFBPNeurode
 
 
 class FFBPNetwork:
-    """."""
+    """Class creating the neural network."""
 
     class EmptySetException(Exception):
-        """>"""
+        """Creating an exception for empty datasets."""
         pass
 
     def __init__(self, num_inputs: int, num_outputs: int, error_model: type(RMSE)):
-        """."""
+        """
+        Initialize an instance of FFBPNetwork Class.
+
+        Parameters:
+        num_inputs (int): Number of inputs for input layer.
+        num_outputs (int): Number of outputs for output layer.
+        error_model (RMSE): Error model type, either Euclidean or Taxicab.
+        """
         self.layers = LayerList(num_inputs, num_outputs, FFBPNeurode)
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
         self.error_model = error_model
 
-        # create a layerlist w/appropriate num of input and output nodes
-        # store error model as an instance attribute
-        # store the num of input/output nodes as instance attributes
-
     def add_hidden_layer(self, num_nodes: int, position=0):
         """Adds hidden layer with the given number of nodes directly after input layer or position."""
-        # add hidden layer with the given num of nodes directly after inout layer
         if num_nodes <= 0:
             raise ValueError
         self.layers.reset_to_head()
@@ -35,47 +37,50 @@ class FFBPNetwork:
         self.layers.add_layer(num_nodes)
 
     def train(self, data_set: NNData, epochs=1000, verbosity=2, order=Order.SHUFFLE):
+        """Training the network."""
         if not data_set:
             raise self.EmptySetException
         rmse = self.error_model()
         for epoch in range(epochs):
-            rmse.reset()  # Reset RMSE Object
-            data_set.prime_data(target_set=Set.TRAIN, order=order)  # Prime data using specified order
-            while not data_set.pool_is_empty(target_set=Set.TRAIN):  # Ensure training set not exhausted
-                features, labels = data_set.get_one_item(target_set=Set.TRAIN)  # Get a feature label pair from dataset
-                for i, feature in enumerate(features):  # Present the features list to input neurodes
+            rmse.reset()
+            data_set.prime_data(target_set=Set.TRAIN, order=order)
+            while not data_set.pool_is_empty(target_set=Set.TRAIN):
+                features, labels = data_set.get_one_item(target_set=Set.TRAIN)
+                for i, feature in enumerate(features):
                     self.layers.input_nodes[i].set_input(feature)
-                for i, label in enumerate(labels):  # Present the features list to input neurodes
+                for i, label in enumerate(labels):
                     self.layers.output_nodes[i].set_expected(label)
-                predicted = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
-                rmse += (predicted, labels)  # Store the predicted and expected values in RMSE object
+                predicted = [node.value for node in self.layers.output_nodes]
+                rmse += (predicted, labels)
                 if verbosity > 1 and epoch % 1000 == 0:
                     print(
-                        f"Epoch {epoch}: Input: {features} Expected: {labels} Predicted: {predicted} RMSE = {rmse.error}")
+                        f"Epoch {epoch}: Input: {features} Expected: {labels} Predicted: {predicted} "
+                        f"RMSE = {rmse.error}")
             if verbosity > 0 and epoch % 100 == 0:
                 print(f"Epoch {epoch}: RMSE = {rmse.error}")
         print(f"Epoch {epoch}: Final RMSE = {rmse.error}")
 
     def test(self, data_set: NNData, order=Order.STATIC):
+        """Testing the network."""
         if not data_set:
             raise self.EmptySetException
         rmse = self.error_model()
-        rmse.reset()  # Reset RMSE Object
-        data_set.prime_data(target_set=Set.TEST, order=order)  # Prime data using specified order
-        while not data_set.pool_is_empty(target_set=Set.TEST):  # Ensure training set not exhausted
-            features, labels = data_set.get_one_item(target_set=Set.TEST)  # Get a feature label pair from dataset
-            for i, feature in enumerate(features):  # Present the features list to input neurodes
+        rmse.reset()
+        data_set.prime_data(target_set=Set.TEST, order=order)
+        while not data_set.pool_is_empty(target_set=Set.TEST):
+            features, labels = data_set.get_one_item(target_set=Set.TEST)
+            for i, feature in enumerate(features):
                 self.layers.input_nodes[i].set_input(feature)
-            # expected = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
             for i, label in enumerate(labels):
                 self.layers.output_nodes[i].set_expected(label)
-            predicted = [node.value for node in self.layers.output_nodes]  # collect the values of output nodes
-            rmse += (predicted, labels)  # Store the predicted and expected values in RMSE object
+            predicted = [node.value for node in self.layers.output_nodes]
+            rmse += (predicted, labels)
             print(f"Input: {features} Expected: {labels} Predicted: {predicted}")
         print(f"Test RMSE: {rmse.error}")
 
 
 def run_iris():
+    """Iris test run."""
     network = FFBPNetwork(4, 3, RMSE.Euclidean)
     network.add_hidden_layer(3)
     Iris_X = [[5.1, 3.5, 1.4, 0.2], [4.9, 3, 1.4, 0.2], [4.7, 3.2, 1.3, 0.2], [4.6, 3.1, 1.5, 0.2],
@@ -142,6 +147,7 @@ def run_iris():
 
 
 def run_sin():
+    """Sin test run."""
     network = FFBPNetwork(1, 1, RMSE.Euclidean)
     network.add_hidden_layer(3)
     sin_X = [[0], [0.01], [0.02], [0.03], [0.04], [0.05], [0.06], [0.07], [0.08], [0.09], [0.1], [0.11], [0.12],
@@ -199,13 +205,15 @@ def run_sin():
 
 
 def run_XOR():
+    """Binary exclusive OR function."""
     network = FFBPNetwork(2, 1, RMSE.Euclidean)
-    network.add_hidden_layer(2)
+    network.add_hidden_layer(4)
     features_x = [[0, 0], [0, 1], [1, 0], [1, 1]]
     labels_y = [[0], [1], [1], [0]]
     data = NNData(features_x, labels_y)
-    network.train(data, 9001)
+    network.train(data)
     network.test(data)
 
-
-run_XOR()
+# run_iris()
+# run_sin()
+# run_XOR()
